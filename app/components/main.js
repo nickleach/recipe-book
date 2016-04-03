@@ -1,5 +1,5 @@
 import React, {Component, StyleSheet, View, Text, TouchableHighlight, TextInput} from 'react-native';
-import SecondPage from "./secondPage";
+import Search from "./search";
 
 const
   _styles = StyleSheet.create({
@@ -50,34 +50,10 @@ const
         search: null,
       }
     },
-    _handleChange(event) {
-      this.setState({
-        search: event.nativeEvent.text
-      });
-    },
-    _search() {
-      this.props.navigator.push({
-          component: SecondPage,
-          title: 'Second Page',
-          passProps: {
-            search: this.state.search
-          }
-      });
-    },
     render() {
       return (
         <View style={_styles.mainContainer}>
-          <TextInput
-            style={_styles.searchInput}
-            value={this.state.search}
-            onChange={this._handleChange}
-          />
-          <TouchableHighlight
-            style={_styles.button}
-            onPress={this._search}
-            underlayColor="white">
-            <Text style={_styles.buttonText}>Search For Recipes</Text>
-          </TouchableHighlight>
+          <Text>Hey From main</Text>
         </View>
       );
     }
