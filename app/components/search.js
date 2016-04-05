@@ -65,6 +65,11 @@ const
       fontWeight: 'bold',
       alignSelf: 'center',
       marginBottom: 20,
+    },
+    errorMessage: {
+      color: 'white',
+      fontSize: 20,
+      alignSelf: 'center',
     }
   }),
 
@@ -75,6 +80,7 @@ const
         ingredients: null,
         searchResults: null,
         isLoading: false,
+        errorMessage: null,
       }
     },
     _handleIngredientsChange(event) {
@@ -102,11 +108,19 @@ const
         ingredients = this.state.ingredients ? `q=${this.state.ingredients.replace(/,?\s+/, ',')}` : '',
         keywords = this.state.keywords ? `i=${this.state.keywords.replace(/,?\s+/, '&q=')}` : '';
       SearchApi.getRecipes(keywords, ingredients).then((res) => {
-        this.setState({
-          searchResults: res,
-          isLoading: false,
-        });
-        this._goToRecipes();
+        if (res.length >= 1) {
+          this.setState({
+            searchResults: res,
+            isLoading: false,
+          });
+          this._goToRecipes();
+        } else {
+          this.setState({
+            errorMessage: "No recipes found",
+            isLoading: false,
+          });
+        }
+
       });
     },
     render() {
@@ -141,6 +155,7 @@ const
                     color="white"
                     size="large"
                 ></ActivityIndicatorIOS>
+          <Text style={_styles.errorMessage}>{this.state.errorMessage}</Text>
         </View>
       );
     }
