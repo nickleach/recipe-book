@@ -6,7 +6,6 @@ import React, {
   TabBarIOS,
   NavigatorIOS
 } from 'react-native';
-
 import Main from './app/components/main';
 import Search from './app/components/search';
 import Recipes from './app/components/recipes';

@@ -4,8 +4,11 @@ import React, {
   View,
   Text,
   TouchableHighlight,
-  TextInput
+  TextInput,
+  ActivityIndicatorIOS,
+  Image
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Recipes from './recipes';
 import SearchApi from '../modules/searchApi';
 
@@ -43,12 +46,25 @@ const
       borderWidth: 1,
       borderColor: 'white',
       borderRadius: 8,
-      color: 'white'
+      color: 'white',
+      padding: 10
     },
     buttonText: {
       fontSize: 18,
       color: '#111',
       alignSelf: 'center'
+    },
+    logo: {
+      alignSelf: 'center',
+      marginBottom: 20,
+    },
+    pageTitle: {
+      color: 'white',
+      fontSize: 30,
+      fontStyle: "italic",
+      fontWeight: 'bold',
+      alignSelf: 'center',
+      marginBottom: 20,
     }
   }),
 
@@ -57,7 +73,8 @@ const
       return {
         keywords: null,
         ingredients: null,
-        searchResults: null
+        searchResults: null,
+        isLoading: false,
       }
     },
     _handleIngredientsChange(event) {
@@ -80,12 +97,14 @@ const
       });
     },
     _search() {
+      this.setState({isLoading: true});
       const
         ingredients = this.state.ingredients ? `q=${this.state.ingredients.replace(/,?\s+/, ',')}` : '',
         keywords = this.state.keywords ? `i=${this.state.keywords.replace(/,?\s+/, '&q=')}` : '';
       SearchApi.getRecipes(keywords, ingredients).then((res) => {
         this.setState({
           searchResults: res,
+          isLoading: false,
         });
         this._goToRecipes();
       });
@@ -93,19 +112,23 @@ const
     render() {
       return (
         <View style={_styles.mainContainer}>
+          <View>
+            <Text style={_styles.pageTitle}>Search For Recipes</Text>
+            <Icon style={_styles.logo} name="cutlery" size={100} color="white" />
+          </View>
           <TextInput
             style={_styles.searchInput}
             value={this.state.keywords}
             onChange={this._handleKeywordsChange}
             placeholder="keywords"
-            placeholderTextColor="white"
+            placeholderTextColor="#C9E7C9"
           />
           <TextInput
             style={_styles.searchInput}
             value={this.state.ingredients}
             onChange={this._handleIngredientsChange}
             placeholder="ingredients"
-            placeholderTextColor="white"
+            placeholderTextColor="#C9E7C9"
           />
           <TouchableHighlight
             style={_styles.button}
@@ -113,6 +136,11 @@ const
             underlayColor="white">
             <Text style={_styles.buttonText}>Search For Recipes</Text>
           </TouchableHighlight>
+          <ActivityIndicatorIOS
+                    animating={this.state.isLoading}
+                    color="white"
+                    size="large"
+                ></ActivityIndicatorIOS>
         </View>
       );
     }
