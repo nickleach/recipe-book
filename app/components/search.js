@@ -55,6 +55,8 @@ const
       alignSelf: 'center'
     },
     logo: {
+      width: 100,
+      height: 100,
       alignSelf: 'center',
       marginBottom: 20,
     },
@@ -120,7 +122,6 @@ const
             isLoading: false,
           });
         }
-
       });
     },
     render() {
@@ -128,7 +129,7 @@ const
         <View style={_styles.mainContainer}>
           <View>
             <Text style={_styles.pageTitle}>Search For Recipes</Text>
-            <Icon style={_styles.logo} name="cutlery" size={100} color="white" />
+            <Image source={require('../assets/forkandknife.png')} style={_styles.logo}/>
           </View>
           <TextInput
             style={_styles.searchInput}

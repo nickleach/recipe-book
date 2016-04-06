@@ -21,6 +21,7 @@ const
 
   _component = React.createClass({
     render() {
+      console.log(this.props);
       return (
         <View style={_styles.mainContainer}>
           <Text style={_styles.text}>Recipes here</Text>
